@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Thipaw Delivery - Food, Bike Taxi & Custom Orders</title>
+    <link rel="icon" type="image/jpeg" href="https://i.ibb.co/B5NfCWH9/1794811370987.jpg">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/B5NfCWH9/1794811370987.jpg">
+    <meta name="theme-color" content="#FF5722">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Myanmar:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans Myanmar', sans-serif;
+            background-color: #E2E8F0;
+            color: #0F172A;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .fade-in { animation: fadeIn 0.2s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="min-h-screen flex justify-center items-start sm:py-4">
+
+    <!-- Mobile App Shell (Max 480px) -->
+    <div class="w-full max-w-[480px] bg-[#F8FAFC] min-h-screen sm:min-h-[850px] sm:max-h-[900px] sm:rounded-[2.25rem] sm:shadow-2xl sm:border sm:border-slate-200 flex flex-col overflow-hidden relative">
+
+        <!-- ================= 0. TERMS SCREEN ================= -->
+        <div id="terms-screen" class="flex-1 flex flex-col justify-between bg-white overflow-y-auto fade-in">
+            <div class="bg-gradient-to-br from-[#FF5722] to-[#FF6D00] pt-8 pb-9 px-6 text-center text-white rounded-b-[2.25rem] shadow-md relative">
+                <div class="w-20 h-20 bg-white rounded-2xl p-1.5 mx-auto mb-3 shadow-lg flex items-center justify-center overflow-hidden">
+                    <img src="https://i.ibb.co/B5NfCWH9/1794811370987.jpg" alt="Logo" class="w-full h-full object-contain rounded-xl">
+                </div>
+                <h1 class="text-2xl font-extrabold tracking-tight">Thipaw Delivery</h1>
+                <p id="terms-subtitle-text" class="text-xs text-orange-100 mt-1">Delivery Rates & Terms of Service in Hsipaw</p>
+            </div>
+
+            <div class="flex-1 px-5 py-5 space-y-4 overflow-y-auto">
+                <div class="bg-orange-50/70 border border-orange-200 rounded-2xl p-4 space-y-3">
+                    <h2 class="text-sm font-extrabold text-slate-900 flex items-center gap-1.5">
+                        <span>💵</span> <span>Delivery & Service Rates</span>
+                    </h2>
+                    <div class="space-y-2 text-xs">
+                        <div class="flex items-center justify-between bg-white p-2.5 rounded-xl border border-orange-100">
+                            <div><p class="font-bold text-slate-800">Downtown Short</p></div>
+                            <span id="display-rate-short" class="font-extrabold text-[#FF5722] text-sm">3,500 MMK</span>
+                        </div>
+                        <div class="flex items-center justify-between bg-white p-2.5 rounded-xl border border-orange-100">
+                            <div><p class="font-bold text-slate-800">Nearby Quarters</p></div>
+                            <span id="display-rate-mid" class="font-extrabold text-[#FF5722] text-sm">5,000 MMK</span>
+                        </div>
+                        <div class="flex items-center justify-between bg-white p-2.5 rounded-xl border border-orange-100">
+                            <div><p class="font-bold text-slate-800">Outskirts / Bawgyo</p></div>
+                            <span id="display-rate-far" class="font-extrabold text-[#FF5722] text-sm">8,000 MMK</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-5 bg-white border-t border-slate-100">
+                <button onclick="acceptTermsAndProceed()" class="w-full py-4 px-5 bg-gradient-to-r from-[#FF5722] to-[#FF6D00] text-white font-extrabold rounded-2xl shadow-lg shadow-orange-500/25 text-sm">
+                    I Agree - Continue
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= 1. REGISTRATION SCREEN ================= -->
+        <div id="register-screen" class="hidden flex-1 flex flex-col justify-between bg-white overflow-y-auto fade-in">
+            <div class="bg-gradient-to-br from-[#FF5722] to-[#FF6D00] pt-9 pb-10 px-6 text-center text-white rounded-b-[2.5rem] shadow-md">
+                <div class="w-16 h-16 bg-white rounded-2xl p-1 mx-auto mb-2.5 shadow-md flex items-center justify-center overflow-hidden">
+                    <img src="https://i.ibb.co/B5NfCWH9/1794811370987.jpg" alt="TD" class="w-full h-full object-contain rounded-xl">
+                </div>
+                <h1 class="text-xl font-extrabold tracking-tight">Thipaw Delivery</h1>
+                <p class="text-xs text-orange-100 mt-0.5">Enter your account details</p>
+            </div>
+
+            <form onsubmit="handleRegister(event)" class="flex-1 px-6 pt-4 pb-8 space-y-4 flex flex-col justify-center">
+                <div class="text-center">
+                    <h2 class="text-lg font-extrabold text-slate-900">Create Account</h2>
+                    <p class="text-[11px] text-slate-500 mt-0.5">⚠️ တကယ့်လူမျက်နှာပုံအစစ် နှင့် နေရပ်လိပ်စာ အမှန်ထည့်ပါ</p>
+                </div>
+
+                <div class="flex flex-col items-center">
+                    <label for="reg-photo" class="cursor-pointer group relative">
+                        <div id="avatar-preview-box" class="w-20 h-20 rounded-full bg-orange-50 border-2 border-dashed border-[#FF5722] flex flex-col items-center justify-center overflow-hidden shadow-2xs">
+                            <span class="text-xl">📷</span>
+                            <span class="text-[10px] font-bold text-[#FF5722] mt-1">လူပုံထည့်ရန်</span>
+                        </div>
+                    </label>
+                    <input type="file" id="reg-photo" accept="image/*" class="hidden" onchange="previewProfilePhoto(event)">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Full Name</label>
+                    <input type="text" id="reg-name" required placeholder="e.g. Sai Sai"
+                        class="w-full rounded-xl border border-slate-300 px-3 py-2.5 text-xs text-slate-900 outline-none focus:border-[#FF5722]">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Phone Number</label>
+                    <input type="tel" id="reg-phone" required placeholder="09xxxxxxxxx"
+                        class="w-full rounded-xl border border-slate-300 px-3 py-2.5 text-xs text-slate-900 outline-none focus:border-[#FF5722]">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">🏠 နေရပ်လိပ်စာ အပြည့်အစုံ</label>
+                    <input type="text" id="reg-address" required placeholder="ရပ်ကွက် / အိမ်နံပါတ် / လမ်းနာမည်"
+                        class="w-full rounded-xl border border-slate-300 px-3 py-2.5 text-xs text-slate-900 outline-none focus:border-[#FF5722]">
+                </div>
+
+                <button type="submit"
+                    class="w-full py-3.5 px-5 bg-gradient-to-r from-[#FF5722] to-[#FF6D00] text-white font-extrabold rounded-2xl shadow-lg shadow-orange-500/25 text-xs">
+                    Save & Start Using App
+                </button>
+            </form>
+        </div>
+
+        <!-- ================= 2. MAIN APP SHELL ================= -->
+        <div id="main-app-shell" class="hidden flex-1 flex flex-col overflow-hidden">
+            <div id="main-scroll-area" class="flex-1 overflow-y-auto no-scrollbar pb-24">
+
+                <!-- HOME VIEW -->
+                <div id="view-home" class="fade-in">
+                    <div class="bg-gradient-to-b from-[#FF5722] to-[#FF6D00] px-5 pt-4 pb-12 text-white relative">
+                        <div class="flex items-center justify-between gap-2">
+                            <div class="flex items-center gap-2.5 min-w-0">
+                                <div class="w-11 h-11 rounded-2xl bg-white p-1 shadow-sm flex items-center justify-center overflow-hidden shrink-0">
+                                    <img src="https://i.ibb.co/B5NfCWH9/1794811370987.jpg" alt="TD" class="w-full h-full object-contain rounded-xl">
+                                </div>
+                                <div class="min-w-0">
+                                    <span class="text-[10px] bg-white/25 px-2 py-0.5 rounded-full font-bold">📍 သီပေါမြို့</span>
+                                    <h1 class="text-base font-extrabold tracking-tight mt-0.5 truncate">Thipaw Delivery</h1>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5 shrink-0">
+                                <button onclick="openEditProfile()" class="relative">
+                                    <img id="home-user-avatar" src="" alt="User" class="w-9 h-9 rounded-full object-cover border-2 border-white bg-orange-100">
+                                </button>
+                                <button onclick="openStaffAccessModal()" class="px-2.5 py-1.5 rounded-xl bg-black/20 text-white text-xs font-bold flex items-center gap-1 border border-white/20">
+                                    <span>🔒</span><span>Staff</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Services Grid -->
+                    <div class="px-4 pt-6">
+                        <div class="grid grid-cols-4 gap-2">
+                            <button onclick="openService('food')" class="flex flex-col items-center group">
+                                <div class="w-16 h-16 rounded-2xl bg-orange-100 border border-orange-200 flex items-center justify-center shadow-2xs">
+                                    <span class="text-3xl">🍜</span>
+                                </div>
+                                <span class="text-[11px] font-extrabold text-slate-800 mt-1.5">Food</span>
+                                <span class="text-[9px] text-slate-500">Shop Menus</span>
+                            </button>
+                            <button onclick="openService('custom')" class="flex flex-col items-center group">
+                                <div class="w-16 h-16 rounded-2xl bg-emerald-100 border border-emerald-200 flex items-center justify-center shadow-2xs">
+                                    <span class="text-3xl">🛍️</span>
+                                </div>
+                                <span class="text-[11px] font-extrabold text-slate-800 mt-1.5">မှာမည်</span>
+                                <span class="text-[9px] text-slate-500">Custom Buy</span>
+                            </button>
+                            <button onclick="openService('bike')" class="flex flex-col items-center group">
+                                <div class="w-16 h-16 rounded-2xl bg-amber-100 border border-amber-200 flex items-center justify-center shadow-2xs">
+                                    <span class="text-3xl">🏍️</span>
+                                </div>
+                                <span class="text-[11px] font-extrabold text-slate-800 mt-1.5">Bike Taxi</span>
+                                <span class="text-[9px] text-slate-500">Quick Ride</span>
+                            </button>
+                            <button onclick="openShopPortal()" class="flex flex-col items-center group">
+                                <div class="w-16 h-16 rounded-2xl bg-rose-100 border border-rose-200 flex items-center justify-center shadow-2xs">
+                                    <span class="text-3xl">🏪</span>
+                                </div>
+                                <span class="text-[11px] font-extrabold text-slate-800 mt-1.5">ဆိုင်ဖွင့်မည်</span>
+                                <span class="text-[9px] text-slate-500">Merchants</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="px-5 pt-5 space-y-2.5">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-xs font-extrabold text-slate-800">🏪 Partner Shops</h2>
+                            <button onclick="openService('food')" class="text-[11px] font-bold text-[#FF5722]">View All →</button>
+                        </div>
+                        <div id="home-shops-strip" class="flex gap-3 overflow-x-auto no-scrollbar pb-1"></div>
+                    </div>
+                </div>
+
+                <!-- FOOD SERVICE VIEW -->
+                <div id="view-food" class="hidden fade-in">
+                    <div class="bg-[#FF5722] text-white px-5 py-4 flex items-center justify-between sticky top-0 z-20 shadow-xs">
+                        <div class="flex items-center gap-3">
+                            <button onclick="switchBottomTab('home')" class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center font-bold">←</button>
+                            <div>
+                                <h1 class="text-base font-extrabold">🍜 Food & ဆိုင်မီနူးများ</h1>
+                                <p class="text-[11px] text-orange-100">ဆိုင်အမျိုးမျိုးမှ ပစ္စည်းများ တစ်စုံတည်း ရွေးချယ်နိုင်သည်</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-5 space-y-4">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <h2 class="text-xs font-extrabold text-slate-800">🏪 ဆိုင်ရွေးချယ်ရန်</h2>
+                            </div>
+                            <div id="food-shop-pills" class="flex gap-2 overflow-x-auto no-scrollbar pb-1"></div>
+                            <div id="food-selected-shop-panel" class="space-y-3"></div>
+                        </div>
+
+                        <!-- MULTI-SHOP CART BOX -->
+                        <form onsubmit="submitFoodOrder(event)" class="bg-white p-4 rounded-2xl border-2 border-orange-200 shadow-xs space-y-4">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-sm font-extrabold text-[#FF5722] flex items-center gap-1.5">
+                                    <span>🛒</span> <span>ရွေးချယ်ထားသော မီနူးများ (ဆိုင်ခွဲစုံ)</span>
+                                </h3>
+                                <button type="button" onclick="clearFoodCart()" class="text-[11px] font-bold text-red-500 hover:underline">အားလုံးဖျက်မည်</button>
+                            </div>
+
+                            <div id="food-cart-list" class="space-y-2 text-xs">
+                                <p class="text-slate-400 italic py-2 text-center">မီနူး မရွေးရသေးပါ။ အပေါ်က '+ Add' ကိုနှိပ်ပါ။</p>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-extrabold text-slate-800 mb-1">ပို့ပေးရမည့် လိပ်စာ</label>
+                                <input type="text" id="food-address" required placeholder="ရပ်ကွက် / အိမ်နံပါတ်"
+                                    class="w-full rounded-xl border border-slate-300 p-3 text-xs text-slate-900 outline-none focus:border-[#FF5722]">
+                            </div>
+
+                            <button type="submit" class="w-full py-4 px-5 bg-gradient-to-r from-[#FF5722] to-[#FF6D00] text-white font-extrabold rounded-2xl shadow-lg text-xs">
+                                Food အော်ဒါတင်မည်
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- CUSTOM ORDER VIEW -->
+                <div id="view-custom" class="hidden fade-in">
+                    <div class="bg-emerald-600 text-white px-5 py-4 flex items-center gap-3 sticky top-0 z-20">
+                        <button onclick="switchBottomTab('home')" class="w-9 h-9 rounded-full bg-white/25 flex items-center justify-center font-bold">←</button>
+                        <div>
+                            <h1 class="text-base font-extrabold">🛍️ မှာမည် (Custom Order)</h1>
+                            <p class="text-[11px] text-emerald-100">ဆိုင်ပြင်ပ ပစ္စည်းများ မှာယူရန်</p>
+                        </div>
+                    </div>
+                    <form onsubmit="submitCustomOrder(event)" class="p-5 space-y-4">
+                        <div class="bg-white p-4 rounded-2xl border border-slate-200 space-y-4">
+                            <div>
+                                <label class="block text-xs font-extrabold text-slate-800 mb-1">၁။ ဆိုင်/နေရာ အမည်</label>
+                                <input type="text" id="custom-shop-name" placeholder="ဥပမာ - ဈေးကြီး / ဆေးဆိုင်"
+                                    class="w-full rounded-xl border border-slate-300 p-3 text-xs outline-none focus:border-emerald-600">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-extrabold text-slate-800 mb-1">၂။ မှာယူလိုသည့် ပစ္စည်းစာရင်း</label>
+                                <textarea id="custom-items" rows="4" required placeholder="ပစ္စည်းအမည်နှင့် အရေအတွက် ရေးပါ..."
+                                    class="w-full rounded-xl border border-slate-300 p-3 text-xs outline-none focus:border-emerald-600"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-extrabold text-slate-800 mb-1">၃။ ပို့ပေးရမည့် လိပ်စာ</label>
+                                <input type="text" id="custom-address" required placeholder="ရပ်ကွက် / အိမ်နံပါတ်"
+                                    class="w-full rounded-xl border border-slate-300 p-3 text-xs outline-none focus:border-emerald-600">
+                            </div>
+                            <button type="submit" class="w-full py-4 px-5 bg-emerald-600 text-white font-extrabold rounded-2xl text-xs">အော်ဒါတင်မည်</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- BIKE TAXI VIEW -->
+                <div id="view-bike" class="hidden fade-in">
+                    <div class="bg-[#FF5722] text-white px-5 py-4 flex items-center justify-between sticky top-0 z-20">
+                        <div class="flex items-center gap-3">
+                            <button onclick="switchBottomTab('home')" class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center font-bold">←</button>
+                            <h1 class="text-base font-extrabold">🏍️ Bike Taxi</h1>
+                        </div>
+                    </div>
+                    <form onsubmit="submitBikeOrder(event)" class="p-4 space-y-4">
+                        <div class="bg-white rounded-2xl border border-slate-200 p-4 space-y-3">
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-400 uppercase">လာခေါ်ရမည့်နေရာ (Pickup)</label>
+                                <input type="text" id="bike-pickup" required placeholder="လက်ရှိနေရာ..."
+                                    class="w-full rounded-xl bg-slate-50 border border-slate-200 px-3 py-2.5 text-xs font-semibold mt-1">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-400 uppercase">သွားလိုသည့်နေရာ (Drop-off)</label>
+                                <input type="text" id="bike-dropoff" required placeholder="နေရာအမည်..."
+                                    class="w-full rounded-xl bg-slate-50 border border-slate-200 px-3 py-2.5 text-xs font-semibold mt-1">
+                            </div>
+                            <button type="submit" class="w-full py-3.5 bg-[#FF5722] text-white font-extrabold rounded-2xl text-xs">ဆိုင်ကယ်ကယ်ရီ ခေါ်မည်</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- SHOP MANAGER VIEW -->
+                <div id="view-shop-manager" class="hidden fade-in">
+                    <div class="bg-[#FF5722] text-white px-5 py-4 flex items-center justify-between sticky top-0 z-20">
+                        <div class="flex items-center gap-3">
+                            <button onclick="switchBottomTab('home')" class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center font-bold">←</button>
+                            <h1 class="text-base font-extrabold">🏪 Shop Channel Manager</h1>
+                        </div>
+                    </div>
+                    <div class="p-5 space-y-5">
+                        <form id="shop-setup-form" onsubmit="saveShopChannel(event)" class="bg-white p-4 rounded-2xl border border-slate-200 space-y-3">
+                            <h2 class="text-xs font-extrabold text-slate-900">🏪 ဆိုင်အသစ် ဖွင့်ရန်</h2>
+                            <input type="text" id="shop-name-input" required placeholder="ဆိုင်နာမည်" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs">
+                            <input type="tel" id="shop-phone-input" required placeholder="ဖုန်းနံပါတ်" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs">
+                            <input type="text" id="shop-address-input" required placeholder="လိပ်စာ" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs">
+                            <button type="submit" class="w-full py-2.5 bg-[#FF5722] text-white font-extrabold text-xs rounded-xl">ဆိုင် မှတ်ပုံတင်မည်</button>
+                        </form>
+                        <div id="shop-manager-list" class="space-y-4"></div>
+                    </div>
+                </div>
+
+                <!-- ACTIVITY VIEW -->
+                <div id="view-activity" class="hidden fade-in">
+                    <div class="bg-[#FF5722] text-white px-5 py-5 sticky top-0 z-20">
+                        <h1 class="text-lg font-extrabold">📋 မှာယူမှု မှတ်တမ်း</h1>
+                        <p class="text-xs text-orange-100">အော်ဒါအခြေအနေ ကြည့်ရှုရန်</p>
+                    </div>
+                    <div id="user-activity-list" class="p-5 space-y-4"></div>
+                </div>
+
+                <!-- MAP VIEW -->
+                <div id="view-map" class="hidden fade-in">
+                    <div class="bg-[#FF5722] text-white px-5 py-4 flex items-center justify-between sticky top-0 z-20">
+                        <h1 class="text-base font-extrabold">🛰️ Satellite Map</h1>
+                    </div>
+                    <div class="p-4 space-y-3.5">
+                        <div class="w-full h-[390px] rounded-2xl overflow-hidden border-2 border-orange-200 bg-slate-900">
+                            <iframe src="https://maps.google.com/maps?q=22.6238,97.3005&t=k&z=16&output=embed" class="w-full h-full border-0"></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PROFILE VIEW -->
+                <div id="view-account" class="hidden fade-in">
+                    <div class="bg-gradient-to-b from-[#FF5722] to-[#FF6D00] text-white px-5 pt-8 pb-12 text-center">
+                        <img id="account-avatar" src="" alt="Avatar" class="w-24 h-24 rounded-full object-cover border-4 border-white mx-auto">
+                        <h2 id="account-name" class="text-xl font-extrabold mt-3">User</h2>
+                        <p id="account-phone" class="text-sm text-orange-100">09xxxxxxxxx</p>
+                    </div>
+                    <div class="px-5 -mt-6 space-y-4">
+                        <div class="bg-white rounded-2xl p-4 border border-slate-200 space-y-3">
+                            <button onclick="openEditProfile()" class="w-full py-3 px-4 rounded-xl bg-orange-50 text-[#FF5722] font-bold text-xs flex justify-between">
+                                <span>✏️ Edit Profile & Photo</span><span>→</span>
+                            </button>
+                            <button onclick="openStaffAccessModal()" class="w-full py-3 px-4 rounded-xl bg-slate-900 text-white font-bold text-xs flex justify-between">
+                                <span>🔒 Rider & Admin Portal</span><span>→</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Navigation -->
+            <nav class="bg-white border-t border-slate-200 px-3 py-2.5 flex items-center justify-around shrink-0 z-30">
+                <button onclick="switchBottomTab('home')" class="flex flex-col items-center gap-1 text-[#FF5722] font-bold"><span class="text-[10px]">ပင်မ</span></button>
+                <button onclick="switchBottomTab('activity')" class="flex flex-col items-center gap-1 text-slate-400 font-semibold"><span class="text-[10px]">မှတ်တမ်း</span></button>
+                <button onclick="switchBottomTab('map')" class="flex flex-col items-center gap-1 text-slate-400 font-semibold"><span class="text-[10px]">မြေပုံ</span></button>
+                <button onclick="switchBottomTab('account')" class="flex flex-col items-center gap-1 text-slate-400 font-semibold"><span class="text-[10px]">ပရိုဖိုင်</span></button>
+            </nav>
+        </div>
+
+        <!-- ================= 3. ADMIN & RIDER CONTROL PANEL ================= -->
+        <div id="admin-screen" class="hidden flex-1 flex flex-col bg-[#F1F5F9] overflow-hidden fade-in">
+            <header class="bg-slate-900 text-white px-5 py-4 flex items-center justify-between shrink-0 shadow-md">
+                <div>
+                    <h1 id="staff-panel-title" class="text-base font-extrabold">Control Panel</h1>
+                    <p class="text-[11px] text-slate-450">Active Orders (<span id="admin-count">0</span>) | Logged as: <span id="current-logged-rider-label" class="text-orange-400 font-bold"></span></p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="logoutStaff()" class="px-2.5 py-1.5 rounded-xl bg-red-600/80 text-white text-[11px] font-bold">Logout</button>
+                    <button onclick="exitAdmin()" class="px-3 py-1.5 rounded-xl bg-[#FF5722] text-white text-xs font-bold">Exit</button>
+                </div>
+            </header>
+
+            <div class="bg-white border-b border-slate-200 px-3 py-2 flex gap-1.5 shrink-0 overflow-x-auto no-scrollbar">
+                <button onclick="switchAdminTab('orders')" id="admintab-orders" class="px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-bold">📦 Orders</button>
+                <button onclick="switchAdminTab('riders')" id="admintab-riders" class="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold">🛡️ ဝန်ထမ်းအတည်ပြုရန် (<span id="pending-riders-count">0</span>)</button>
+                <button onclick="switchAdminTab('settings')" id="admintab-settings" class="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold">⚙️ နှုန်းထားနှင့် စည်းကမ်းများ</button>
+            </div>
+
+            <!-- Tab 1: Orders -->
+            <div id="admin-orders-container" class="flex-1 overflow-y-auto p-4 space-y-4 pb-10"></div>
+
+            <!-- Tab 2: Pending Riders -->
+            <div id="admin-riders-container" class="hidden flex-1 overflow-y-auto p-4 space-y-3 pb-10"></div>
+
+            <!-- Tab 3: Dynamic Settings (Rates & Terms Configurator) -->
+            <div id="admin-settings-container" class="hidden flex-1 overflow-y-auto p-4 space-y-4 pb-10">
+                <form onsubmit="saveAppSettings(event)" class="bg-white p-4 rounded-2xl border shadow-2xs space-y-3">
+                    <h3 class="text-xs font-extrabold text-slate-900">⚙️ အော်ဒါနှုန်းထားနှင့် စည်းကမ်းချက်များ ပြင်ဆင်ရန်</h3>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-700 mb-1">Downtown Short Rate</label>
+                        <input type="text" id="setting-rate-short" class="w-full rounded-xl border p-2.5 text-xs font-bold">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-700 mb-1">Nearby Quarters Rate</label>
+                        <input type="text" id="setting-rate-mid" class="w-full rounded-xl border p-2.5 text-xs font-bold">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-700 mb-1">Outskirts / Bawgyo Rate</label>
+                        <input type="text" id="setting-rate-far" class="w-full rounded-xl border p-2.5 text-xs font-bold">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-700 mb-1">စည်းကမ်းချက် / သတိပေးချက် စာသား (Terms & Subtitle)</label>
+                        <textarea id="setting-terms-text" rows="3" class="w-full rounded-xl border p-2.5 text-xs"></textarea>
+                    </div>
+                    <button type="submit" class="w-full py-3 bg-[#FF5722] text-white font-extrabold text-xs rounded-xl shadow-md">ပြောင်းလဲမှုများကို သိမ်းဆည်းမည်</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ================= 4. PIN MODAL ================= -->
+        <div id="pin-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden items-center justify-center p-5">
+            <div class="bg-white rounded-3xl max-w-xs w-full p-6 text-center shadow-2xl space-y-4 fade-in">
+                <div class="w-12 h-12 bg-orange-100 text-[#FF5722] rounded-2xl flex items-center justify-center text-xl mx-auto">🔒</div>
+                <h3 class="text-base font-extrabold text-slate-900">Staff & Rider Access</h3>
+                <input type="text" id="rider-login-name" placeholder="Rider / Staff Name" class="w-full text-center text-xs font-bold rounded-xl border border-slate-200 py-2.5 px-3 outline-none focus:border-[#FF5722]">
+                <input type="password" id="pin-input" maxlength="4" inputmode="numeric" placeholder="••••" onkeyup="if(event.key === 'Enter') verifyPin()"
+                    class="w-full text-center tracking-[0.5em] text-xl font-extrabold rounded-xl border border-slate-300 py-3 outline-none focus:border-[#FF5722]">
+                <p id="pin-error" class="hidden text-xs font-bold text-red-600">PIN မှားယွင်းနေပါသည် (သို့) Admin ခွင့်ပြုချက်မရှိသေးပါ</p>
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="closePinModal()" class="py-2.5 rounded-xl bg-slate-100 text-slate-700 font-bold text-xs">Cancel</button>
+                    <button onclick="verifyPin()" class="py-2.5 rounded-xl bg-[#FF5722] text-white font-bold text-xs">Login</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SHOP PASSWORD MODAL -->
+        <div id="shop-pass-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden items-center justify-center p-5">
+            <div class="bg-white rounded-3xl max-w-xs w-full p-6 text-center shadow-2xl space-y-4">
+                <h3 class="text-base font-extrabold text-slate-900">Merchant Shop Portal</h3>
+                <input type="password" id="shop-pass-input" maxlength="4" inputmode="numeric" placeholder="••••" onkeyup="if(event.key === 'Enter') verifyShopPassword()"
+                    class="w-full text-center tracking-[0.5em] text-xl font-extrabold rounded-xl border border-slate-300 py-3 outline-none">
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="closeShopPassModal()" class="py-2.5 rounded-xl bg-slate-100 text-xs font-bold">Cancel</button>
+                    <button onclick="verifyShopPassword()" class="py-2.5 rounded-xl bg-[#FF5722] text-white text-xs font-bold">Enter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-box" class="fixed bottom-20 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-xs font-bold px-4 py-3 rounded-xl shadow-xl hidden z-50 text-center"></div>
+
+    <script>
+        const ADMIN_MASTER_PIN = "1234";
+        const RIDER_STAFF_PIN = "5555";
+        const MERCHANT_PASS = "8888";
+
+        const DEFAULT_AVATAR = "data:image/svg+xml;utf8," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none"><rect width="100" height="100" fill="#FFEDD5"/><circle cx="50" cy="38" r="18" fill="#FF5722"/><path d="M20 88C20 70 33 60 50 60C67 60 80 70 80 88" fill="#FF5722"/></svg>');
+        const DEFAULT_SHOP_IMG = "data:image/svg+xml;utf8," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none"><rect width="100" height="100" fill="#FFF7ED"/><rect x="20" y="38" width="60" height="42" rx="6" fill="#FF5722"/><path d="M16 38L26 22H74L84 38H16Z" fill="#EA580C"/></svg>');
+
+        let userProfile = JSON.parse(localStorage.getItem('thipaw_user_v4')) || null;
+        let allShops = JSON.parse(localStorage.getItem('thipaw_shops_v4')) || [];
+        let allOrders = JSON.parse(localStorage.getItem('thipaw_orders_v4')) || [];
+        let approvedRiders = JSON.parse(localStorage.getItem('thipaw_approved_riders_v4')) || ["Admin", "မောင်မောင်"];
+        let pendingRiders = JSON.parse(localStorage.getItem('thipaw_pending_riders_v4')) || [];
+
+        // App dynamic settings
+        let appSettings = JSON.parse(localStorage.getItem('thipaw_settings_v4')) || {
+            rateShort: "3,500 MMK",
+            rateMid: "5,000 MMK",
+            rateFar: "8,000 MMK",
+            termsText: "Delivery Rates & Terms of Service in Hsipaw"
+        };
+
+        let foodCart = [];
+        let selectedShopId = null;
+        let tempAvatarUrl = DEFAULT_AVATAR;
+        let shopUnlocked = false;
+        let currentStaffRole = 'admin';
+        let currentRiderName = 'Admin';
+
+        const notificationSound = new Audio("https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3");
+
+        window.onload = function() {
+            applyAppSettings();
+            if (!userProfile) {
+                showRegistration();
+            } else {
+                enterMainApp();
+            }
+            // Check remembered rider login to skip PIN modal
+            const savedRider = localStorage.getItem('thipaw_logged_rider_v4');
+            if (savedRider) {
+                currentRiderName = savedRider;
+                currentStaffRole = (savedRider === 'Admin') ? 'admin' : 'rider';
+            }
+        };
+
+        function showToast(msg) {
+            const box = document.getElementById('toast-box');
+            box.textContent = msg;
+            box.classList.remove('hidden');
+            setTimeout(() => box.classList.add('hidden'), 2800);
+        }
+
+        function applyAppSettings() {
+            document.getElementById('display-rate-short').textContent = appSettings.rateShort;
+            document.getElementById('display-rate-mid').textContent = appSettings.rateMid;
+            document.getElementById('display-rate-far').textContent = appSettings.rateFar;
+            document.getElementById('terms-subtitle-text').textContent = appSettings.termsText;
+        }
+
+        function previewProfilePhoto(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                tempAvatarUrl = evt.target.result;
+                document.getElementById('avatar-preview-box').innerHTML = `<img src="${tempAvatarUrl}" class="w-full h-full object-cover rounded-full">`;
+                showToast("ဓာတ်ပုံ ရယူပြီးပါပြီ");
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('reg-name').value.trim();
+            const phone = document.getElementById('reg-phone').value.trim();
+            const address = document.getElementById('reg-address').value.trim();
+            if (!name || !phone || !address) return;
+
+            userProfile = { name, phone, address, photo: tempAvatarUrl };
+            localStorage.setItem('thipaw_user_v4', JSON.stringify(userProfile));
+            enterMainApp();
+            showToast("အကောင့်ဖွင့်ခြင်း အောင်မြင်ပါသည်။");
+        }
+
+        function showRegistration() {
+            document.getElementById('terms-screen').classList.add('hidden');
+            document.getElementById('register-screen').classList.remove('hidden');
+            document.getElementById('main-app-shell').classList.add('hidden');
+            document.getElementById('admin-screen').classList.add('hidden');
+        }
+
+        function acceptTermsAndProceed() {
+            if (userProfile) enterMainApp();
+            else showRegistration();
+        }
+
+        function enterMainApp() {
+            document.getElementById('terms-screen').classList.add('hidden');
+            document.getElementById('register-screen').classList.add('hidden');
+            document.getElementById('admin-screen').classList.add('hidden');
+            document.getElementById('main-app-shell').classList.remove('hidden');
+
+            const avatar = userProfile.photo || DEFAULT_AVATAR;
+            document.getElementById('home-user-avatar').src = avatar;
+            document.getElementById('account-avatar').src = avatar;
+            document.getElementById('account-name').textContent = userProfile.name;
+            document.getElementById('account-phone').textContent = userProfile.phone;
+
+            renderHomeShopsStrip();
+            switchBottomTab('home');
+        }
+
+        function hideAllViews() {
+            ['view-home', 'view-food', 'view-custom', 'view-bike', 'view-shop-manager', 'view-activity', 'view-map', 'view-account'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+        }
+
+        function switchBottomTab(tab) {
+            hideAllViews();
+            document.getElementById('main-scroll-area').scrollTop = 0;
+            if (tab === 'home') {
+                document.getElementById('view-home').classList.remove('hidden');
+                renderHomeShopsStrip();
+            } else if (tab === 'activity') {
+                document.getElementById('view-activity').classList.remove('hidden');
+                renderUserActivity();
+            } else if (tab === 'map') {
+                document.getElementById('view-map').classList.remove('hidden');
+            } else if (tab === 'account') {
+                document.getElementById('view-account').classList.remove('hidden');
+            }
+        }
+
+        function openService(srv) {
+            hideAllViews();
+            document.getElementById(`view-${srv}`).classList.remove('hidden');
+            if (srv === 'food') renderFoodShopBrowser();
+        }
+
+        function renderHomeShopsStrip() {
+            const strip = document.getElementById('home-shops-strip');
+            if (!allShops.length) {
+                strip.innerHTML = `<p class="text-xs text-slate-400 py-2">ဆိုင်များ မရှိသေးပါ။</p>`;
+                return;
+            }
+            strip.innerHTML = allShops.map(shop => `
+                <button onclick="openFoodWithShop('${shop.id}')" class="bg-white border border-slate-200 rounded-2xl p-2.5 flex items-center gap-2.5 shrink-0 w-[200px] text-left">
+                    <img src="${shop.photo || DEFAULT_SHOP_IMG}" class="w-11 h-11 rounded-xl object-cover">
+                    <div class="min-w-0">
+                        <p class="text-xs font-extrabold text-slate-900 truncate">${shop.name}</p>
+                        <p class="text-[10px] text-slate-500">📍 ${shop.address}</p>
+                    </div>
+                </button>
+            `).join('');
+        }
+
+        function openFoodWithShop(id) {
+            selectedShopId = id;
+            openService('food');
+        }
+
+        function renderFoodShopBrowser() {
+            const pillsContainer = document.getElementById('food-shop-pills');
+            const panelContainer = document.getElementById('food-selected-shop-panel');
+            if (!allShops.length) {
+                pillsContainer.innerHTML = "";
+                panelContainer.innerHTML = `<p class="text-xs text-slate-400 text-center py-4">ဆိုင်မီနူးများ မတင်ရသေးပါ။</p>`;
+                return;
+            }
+            if (!selectedShopId || !allShops.some(s => s.id === selectedShopId)) {
+                selectedShopId = allShops[0].id;
+            }
+            pillsContainer.innerHTML = allShops.map(shop => `
+                <button onclick="selectShopInFood('${shop.id}')" class="px-3.5 py-2 rounded-xl text-xs font-extrabold whitespace-nowrap border ${shop.id === selectedShopId ? 'bg-[#FF5722] text-white border-[#FF5722]' : 'bg-white text-slate-700 border-slate-200'}">
+                    🏪 ${shop.name}
+                </button>
+            `).join('');
+
+            const activeShop = allShops.find(s => s.id === selectedShopId);
+            if (!activeShop) return;
+
+            panelContainer.innerHTML = `
+                <div class="space-y-2">
+                    ${(activeShop.items || []).map(item => `
+                        <div class="bg-white p-3 rounded-2xl border border-slate-200 flex items-center justify-between gap-3">
+                            <div class="flex items-center gap-2.5 min-w-0">
+                                <img src="${item.photo || DEFAULT_SHOP_IMG}" class="w-12 h-12 rounded-xl object-cover">
+                                <div class="min-w-0">
+                                    <h4 class="text-xs font-extrabold text-slate-900 truncate">${item.name}</h4>
+                                    <p class="text-xs font-extrabold text-[#FF5722]">${item.price}</p>
+                                </div>
+                            </div>
+                            <button onclick="addToFoodCart('${escapeAttr(activeShop.name)}', '${escapeAttr(item.name)}', '${escapeAttr(item.price)}')" class="px-3 py-1.5 bg-orange-100 text-[#FF5722] font-extrabold text-xs rounded-xl">+ Add</button>
+                        </div>
+                    `).join('') || '<p class="text-xs text-slate-400 text-center py-2">မီနူးပစ္စည်း မရှိသေးပါ။</p>'}
+                </div>
+            `;
+            renderFoodCart();
+        }
+
+        function selectShopInFood(id) {
+            selectedShopId = id;
+            renderFoodShopBrowser();
+        }
+
+        function addToFoodCart(shopName, itemName, itemPrice) {
+            const existing = foodCart.find(c => c.shopName === shopName && c.itemName === itemName);
+            if (existing) existing.qty += 1;
+            else foodCart.push({ shopName, itemName, itemPrice, qty: 1 });
+            renderFoodCart();
+            showToast(` "${itemName}" ကို ထည့်ပြီးပါပြီ`);
+        }
+
+        function updateCartQty(idx, delta) {
+            foodCart[idx].qty += delta;
+            if (foodCart[idx].qty <= 0) foodCart.splice(idx, 1);
+            renderFoodCart();
+        }
+
+        function clearFoodCart() {
+            foodCart = [];
+            renderFoodCart();
+        }
+
+        function renderFoodCart() {
+            const box = document.getElementById('food-cart-list');
+            if (!foodCart.length) {
+                box.innerHTML = `<p class="text-slate-400 italic py-2 text-center">မီနူး မရွေးရသေးပါ။ ဆိုင်အမျိုးမျိုးမှ ရွေးချယ်နိုင်ပါသည်။</p>`;
+                return;
+            }
+            let grouped = {};
+            foodCart.forEach((c, idx) => {
+                if (!grouped[c.shopName]) grouped[c.shopName] = [];
+                grouped[c.shopName].push({...c, originalIdx: idx});
+            });
+
+            let html = '';
+            for (let shop in grouped) {
+                html += `<div class="bg-orange-50/70 p-2.5 rounded-xl border border-orange-100 space-y-1.5 mb-2">
+                    <p class="text-[11px] font-extrabold text-[#FF5722]">🏪 ဆိုင်: ${shop}</p>`;
+                grouped[shop].forEach(item => {
+                    html += `<div class="flex items-center justify-between bg-white px-2.5 py-1.5 rounded-lg border">
+                        <span class="text-xs font-bold truncate pr-2">${item.itemName} (${item.itemPrice})</span>
+                        <div class="flex items-center gap-1.5 shrink-0">
+                            <button onclick="updateCartQty(${item.originalIdx}, -1)" class="w-5 h-5 bg-slate-100 rounded font-bold">-</button>
+                            <span class="text-xs font-extrabold w-4 text-center">${item.qty}</span>
+                            <button onclick="updateCartQty(${item.originalIdx}, 1)" class="w-5 h-5 bg-[#FF5722] text-white rounded font-bold">+</button>
+                        </div>
+                    </div>`;
+                });
+                html += `</div>`;
+            }
+            box.innerHTML = html;
+        }
+
+        function submitFoodOrder(e) {
+            e.preventDefault();
+            if (!foodCart.length) {
+                showToast("ကျေးဇူးပြု၍ မီနူးများ အရင်ရွေးချယ်ပါ");
+                return;
+            }
+            const address = document.getElementById('food-address').value.trim();
+            const shopsInvolved = [...new Set(foodCart.map(c => c.shopName))].join(', ');
+            const itemsSummary = foodCart.map(c => `[${c.shopName}] ${c.itemName} x${c.qty} (${c.itemPrice})`).join('\n');
+
+            const newOrder = {
+                id: Date.now(),
+                type: 'food',
+                customerName: userProfile.name,
+                customerPhone: userProfile.phone,
+                customerPhoto: userProfile.photo || DEFAULT_AVATAR,
+                details: itemsSummary,
+                pickupAddress: shopsInvolved,
+                dropoffAddress: address,
+                fareText: appSettings.rateShort,
+                status: 'New',
+                claimedBy: null,
+                createdAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            };
+
+            allOrders.unshift(newOrder);
+            localStorage.setItem('thipaw_orders_v4', JSON.stringify(allOrders));
+            notificationSound.play().catch(e => console.log(e));
+
+            foodCart = [];
+            renderFoodCart();
+            e.target.reset();
+            showToast("Food အော်ဒါ တင်သွင်းပြီးပါပြီ!");
+            switchBottomTab('activity');
+        }
+
+        function submitCustomOrder(e) {
+            e.preventDefault();
+            const shop = document.getElementById('custom-shop-name').value.trim() || "Any Shop";
+            const items = document.getElementById('custom-items').value.trim();
+            const addr = document.getElementById('custom-address').value.trim();
+
+            const newOrder = {
+                id: Date.now(),
+                type: 'custom',
+                customerName: userProfile.name,
+                customerPhone: userProfile.phone,
+                customerPhoto: userProfile.photo || DEFAULT_AVATAR,
+                details: `[Custom - ${shop}]\n${items}`,
+                pickupAddress: shop,
+                dropoffAddress: addr,
+                fareText: appSettings.rateShort,
+                status: 'New',
+                claimedBy: null,
+                createdAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            };
+            allOrders.unshift(newOrder);
+            localStorage.setItem('thipaw_orders_v4', JSON.stringify(allOrders));
+            notificationSound.play().catch(e => console.log(e));
+            e.target.reset();
+            showToast("အော်ဒါတင်ပြီးပါပြီ");
+            switchBottomTab('activity');
+        }
+
+        function submitBikeOrder(e) {
+            e.preventDefault();
+            const pickup = document.getElementById('bike-pickup').value.trim();
+            const dropoff = document.getElementById('bike-dropoff').value.trim();
+
+            const newOrder = {
+                id: Date.now(),
+                type: 'bike',
+                customerName: userProfile.name,
+                customerPhone: userProfile.phone,
+                customerPhoto: userProfile.photo || DEFAULT_AVATAR,
+                details: `Bike Taxi Ride`,
+                pickupAddress: pickup,
+                dropoffAddress: dropoff,
+                fareText: appSettings.rateShort,
+                status: 'New',
+                claimedBy: null,
+                createdAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            };
+            allOrders.unshift(newOrder);
+            localStorage.setItem('thipaw_orders_v4', JSON.stringify(allOrders));
+            notificationSound.play().catch(e => console.log(e));
+            e.target.reset();
+            showToast("Bike Taxi ခေါ်ဆိုပြီးပါပြီ");
+            switchBottomTab('activity');
+        }
+
+        // STAFF ACCESS & REMEMBERED LOGIN
+        function openStaffAccessModal() {
+            const savedRider = localStorage.getItem('thipaw_logged_rider_v4');
+            if (savedRider) {
+                currentRiderName = savedRider;
+                currentStaffRole = (savedRider === 'Admin') ? 'admin' : 'rider';
+                showAdminScreen();
+                return;
+            }
+            document.getElementById('pin-input').value = "";
+            document.getElementById('pin-error').classList.add('hidden');
+            document.getElementById('pin-modal').classList.remove('hidden');
+            document.getElementById('pin-modal').classList.add('flex');
+        }
+
+        function closePinModal() {
+            document.getElementById('pin-modal').classList.add('hidden');
+            document.getElementById('pin-modal').classList.remove('flex');
+        }
+
+        function verifyPin() {
+            const pin = document.getElementById('pin-input').value.trim();
+            const name = document.getElementById('rider-login-name').value.trim();
+
+            if (pin === ADMIN_MASTER_PIN) {
+                currentStaffRole = 'admin';
+                currentRiderName = 'Admin';
+                localStorage.setItem('thipaw_logged_rider_v4', 'Admin');
+                closePinModal();
+                showAdminScreen();
+            } else if (pin === RIDER_STAFF_PIN) {
+                if (!name) {
+                    showToast("ကျေးဇူးပြု၍ ဝန်ထမ်းနာမည် ထည့်ပါ");
+                    return;
+                }
+                if (approvedRiders.includes(name)) {
+                    currentStaffRole = 'rider';
+                    currentRiderName = name;
+                    localStorage.setItem('thipaw_logged_rider_v4', name);
+                    closePinModal();
+                    showAdminScreen();
+                } else {
+                    if (!pendingRiders.includes(name)) {
+                        pendingRiders.push(name);
+                        localStorage.setItem('thipaw_pending_riders_v4', JSON.stringify(pendingRiders));
+                    }
+                    document.getElementById('pin-error').textContent = "Admin အတည်ပြုချက် မရသေးပါ။ စောင့်ဆိုင်းပါ။";
+                    document.getElementById('pin-error').classList.remove('hidden');
+                }
+            } else {
+                document.getElementById('pin-error').textContent = "PIN မှားယွင်းနေပါသည်";
+                document.getElementById('pin-error').classList.remove('hidden');
+            }
+        }
+
+        function logoutStaff() {
+            localStorage.removeItem('thipaw_logged_rider_v4');
+            showToast("Logged out successfully");
+            exitAdmin();
+        }
+
+        function showAdminScreen() {
+            document.getElementById('terms-screen').classList.add('hidden');
+            document.getElementById('register-screen').classList.add('hidden');
+            document.getElementById('main-app-shell').classList.add('hidden');
+            document.getElementById('admin-screen').classList.remove('hidden');
+            document.getElementById('current-logged-rider-label').textContent = currentRiderName;
+            
+            // Hide settings tab for normal riders
+            if (currentStaffRole !== 'admin') {
+                document.getElementById('admintab-settings').classList.add('hidden');
+            } else {
+                document.getElementById('admintab-settings').classList.remove('hidden');
+            }
+
+            renderAdminOrders();
+            renderPendingRiders();
+            loadSettingsIntoForm();
+        }
+
+        function exitAdmin() {
+            enterMainApp();
+        }
+
+        function switchAdminTab(tab) {
+            const ordBox = document.getElementById('admin-orders-container');
+            const ridBox = document.getElementById('admin-riders-container');
+            const setBox = document.getElementById('admin-settings-container');
+
+            ordBox.classList.add('hidden');
+            ridBox.classList.add('hidden');
+            setBox.classList.add('hidden');
+
+            if (tab === 'orders') ordBox.classList.remove('hidden');
+            else if (tab === 'riders') ridBox.classList.remove('hidden');
+            else if (tab === 'settings') setBox.classList.remove('hidden');
+        }
+
+        function claimOrderByStaff(index) {
+            const order = allOrders[index];
+            order.claimedBy = currentRiderName;
+            order.status = 'Accepted';
+            localStorage.setItem('thipaw_orders_v4', JSON.stringify(allOrders));
+            renderAdminOrders();
+            showToast(`အော်ဒါကို လက်ခံလိုက်ပါပြီ (${currentRiderName})`);
+        }
+
+        function completeOrder(index) {
+            allOrders.splice(index, 1);
+            localStorage.setItem('thipaw_orders_v4', JSON.stringify(allOrders));
+            renderAdminOrders();
+            showToast("အော်ဒါ ပို့ဆောင်ပြီးစီး၍ ဖျက်သိမ်းလိုက်ပါပြီ");
+        }
+
+        function renderAdminOrders() {
+            document.getElementById('admin-count').textContent = allOrders.length;
+            const container = document.getElementById('admin-orders-container');
+            if (!allOrders.length) {
+                container.innerHTML = `<p class="text-center text-slate-400 text-sm py-12">အော်ဒါ အသစ်များ မရှိသေးပါ။</p>`;
+                return;
+            }
+            container.innerHTML = allOrders.map((order, index) => {
+                const isTaken = order.claimedBy;
+                const isTakenByMe = order.claimedBy === currentRiderName;
+                if (isTaken && !isTakenByMe && currentStaffRole !== 'admin') return '';
+
+                return `
+                    <div class="bg-white p-4 rounded-2xl border shadow-2xs space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2.5 py-1 rounded-lg bg-orange-100 text-[#FF5722] font-extrabold text-[11px]">${order.type.toUpperCase()}</span>
+                            <span class="text-xs font-extrabold text-[#FF5722]">${order.fareText}</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xs font-extrabold text-slate-900">${order.customerName} (${order.customerPhone})</h3>
+                            <p class="text-xs text-slate-700 whitespace-pre-line mt-1">${order.details}</p>
+                            <p class="text-xs text-slate-500 mt-1">📍 ${order.dropoffAddress}</p>
+                            ${order.claimedBy ? `<p class="text-xs font-bold text-blue-600 mt-1">🛵 တာဝန်ယူသူ: ${order.claimedBy}</p>` : ''}
+                        </div>
+                        <div class="flex gap-2">
+                            ${!order.claimedBy ? `
+                                <button onclick="claimOrderByStaff(${index})" class="flex-1 py-2.5 bg-[#FF5722] text-white font-extrabold text-xs rounded-xl">✋ အော်ဒါကောက်မည် (Claim)</button>
+                            ` : `
+                                <button onclick="completeOrder(${index})" class="flex-1 py-2.5 bg-emerald-600 text-white font-extrabold text-xs rounded-xl">✅ ပို့ဆောင်ပြီးစီးကြောင်း (Finish)</button>
+                            `}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderPendingRiders() {
+            document.getElementById('pending-riders-count').textContent = pendingRiders.length;
+            const container = document.getElementById('admin-riders-container');
+            if (!pendingRiders.length) {
+                container.innerHTML = `<p class="text-center text-xs text-slate-400 py-6">စောင့်ဆိုင်းနေသော ဝန်ထမ်း မရှိပါ။</p>`;
+                return;
+            }
+            container.innerHTML = pendingRiders.map((name, idx) => `
+                <div class="bg-white p-3 rounded-xl border flex items-center justify-between">
+                    <span class="text-xs font-bold text-slate-900">${name}</span>
+                    <button onclick="approveRider(${idx})" class="px-3 py-1.5 bg-emerald-600 text-white text-xs font-bold rounded-lg">Approve (ခွင့်ပြုမည်)</button>
+                </div>
+            `).join('');
+        }
+
+        function approveRider(idx) {
+            const name = pendingRiders.splice(idx, 1)[0];
+            approvedRiders.push(name);
+            localStorage.setItem('thipaw_pending_riders_v4', JSON.stringify(pendingRiders));
+            localStorage.setItem('thipaw_approved_riders_v4', JSON.stringify(approvedRiders));
+            renderPendingRiders();
+            showToast(`${name} ကို ဝန်ထမ်းအဖြစ် အတည်ပြုလိုက်ပါပြီ`);
+        }
+
+        // Settings Management
+        function loadSettingsIntoForm() {
+            document.getElementById('setting-rate-short').value = appSettings.rateShort;
+            document.getElementById('setting-rate-mid').value = appSettings.rateMid;
+            document.getElementById('setting-rate-far').value = appSettings.rateFar;
+            document.getElementById('setting-terms-text').value = appSettings.termsText;
+        }
+
+        function saveAppSettings(e) {
+            e.preventDefault();
+            appSettings.rateShort = document.getElementById('setting-rate-short').value.trim();
+            appSettings.rateMid = document.getElementById('setting-rate-mid').value.trim();
+            appSettings.rateFar = document.getElementById('setting-rate-far').value.trim();
+            appSettings.termsText = document.getElementById('setting-terms-text').value.trim();
+
+            localStorage.setItem('thipaw_settings_v4', JSON.stringify(appSettings));
+            applyAppSettings();
+            showToast("နှုန်းထားနှင့် စည်းကမ်းချက်များ အောင်မြင်စွာ ပြောင်းလဲပြီးပါပြီ!");
+        }
+
+        // Shop Management
+        function openShopPortal() {
+            if (shopUnlocked) { openShopManagerView(); return; }
+            document.getElementById('shop-pass-modal').classList.remove('hidden');
+            document.getElementById('shop-pass-modal').classList.add('flex');
+        }
+        function closeShopPassModal() {
+            document.getElementById('shop-pass-modal').classList.add('hidden');
+            document.getElementById('shop-pass-modal').classList.remove('flex');
+        }
+        function verifyShopPassword() {
+            if (document.getElementById('shop-pass-input').value.trim() === MERCHANT_PASS) {
+                shopUnlocked = true;
+                closeShopPassModal();
+                openShopManagerView();
+            } else {
+                showToast("Password မှားယွင်းနေပါသည်");
+            }
+        }
+        function openShopManagerView() {
+            hideAllViews();
+            document.getElementById('view-shop-manager').classList.remove('hidden');
+            renderShopManagerList();
+        }
+        function saveShopChannel(e) {
+            e.preventDefault();
+            const name = document.getElementById('shop-name-input').value.trim();
+            const phone = document.getElementById('shop-phone-input').value.trim();
+            const address = document.getElementById('shop-address-input').value.trim();
+            allShops.unshift({ id: 'shop_' + Date.now(), name, phone, address, photo: DEFAULT_SHOP_IMG, items: [] });
+            localStorage.setItem('thipaw_shops_v4', JSON.stringify(allShops));
+            e.target.reset();
+            renderShopManagerList();
+            showToast("ဆိုင်ဖွင့်လှစ်မှု အောင်မြင်ပါသည်။");
+        }
+        function renderShopManagerList() {
+            document.getElementById('shop-manager-list').innerHTML = allShops.map(s => `
+                <div class="bg-white p-3 rounded-2xl border">
+                    <p class="text-xs font-extrabold text-slate-900">${s.name} (${s.phone})</p>
+                    <p class="text-[11px] text-slate-500">📍 ${s.address}</p>
+                </div>
+            `).join('');
+        }
+        function openEditProfile() { showRegistration(); }
+        function renderUserActivity() {
+            const container = document.getElementById('user-activity-list');
+            if (!allOrders.length) {
+                container.innerHTML = `<p class="text-center text-xs text-slate-400 py-10">အော်ဒါများ မရှိသေးပါ။</p>`;
+                return;
+            }
+            container.innerHTML = allOrders.map(o => `
+                <div class="bg-white p-4 rounded-2xl border shadow-2xs space-y-2">
+                    <div class="flex justify-between">
+                        <span class="text-xs font-extrabold text-[#FF5722]">${o.type.toUpperCase()}</span>
+                        <span class="text-xs font-bold bg-slate-100 px-2.5 py-0.5 rounded">${o.status}</span>
+                    </div>
+                    <p class="text-xs font-bold text-slate-900 whitespace-pre-line">${o.details}</p>
+                    <p class="text-xs text-slate-500">📍 ${o.dropoffAddress}</p>
+                    ${o.claimedBy ? `<p class="text-xs font-bold text-blue-600">🛵 ပို့ဆောင်နေသူ: ${o.claimedBy}</p>` : ''}
+                </div>
+            `).join('');
+        }
+        function escapeAttr(str) { return String(str).replace(/'/g, "\\'").replace(/"/g, '&quot;'); }
+    </script>
+</body>
+</html>
